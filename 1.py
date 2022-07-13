@@ -6,7 +6,7 @@
 
 from abc import ABCMeta, abstractmethod
 import json
-import csv
+import pickle
 
 
 class SerializationInterface(metaclass=ABCMeta):
@@ -35,14 +35,13 @@ class BinFile(SerializationInterface):
 
     def read(self, from_file):
         with open(from_file, 'rb', encoding='utf-8') as f:
-            return f.readlines()
+            bindata = pickle.load(f)
+            return bindata
 
     def write(self, to_file, data):
         with open(to_file, 'wb', encoding='utf-8') as f:
-            return f.write(data)
+            return pickle.dump(data, f)
 
 
 jdata = JsonFile()
 jdata.write('json.json', 'sdfsdf')
-
-
